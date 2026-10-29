@@ -1,6 +1,7 @@
 import { $, $all, formatMinutes } from './utils/helpers.js';
 import { initClock } from './utils/date.js';
 import { iptvCacheDB } from './services/cache.js';
+import { buildIptvEndpoint, iptvSession } from './services/auth.js';
 import { createChannelCard } from './components/channelCard.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -9,9 +10,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     let categoryMap = {}; // Guardará a tradução de ID -> Nome da Categoria (Ex: {"1885": "CANAIS | GLOBO"})
 
     const paramsMap = {
-        'live': { en: 'Live Channels', 'pt-br': 'Canais ao vivo', streamFile: 'get_live_streams.json', catFile: 'get_live_categories.json' },
-        'vod': { en: 'Movies', 'pt-br': 'Filmes', streamFile: 'get_vod_streams.json', catFile: 'get_vod_categories.json' },
-        'series': { en: 'Series', 'pt-br': 'Séries', streamFile: 'get_series.json', catFile: 'get_series_categories.json' }
+        live: {
+            en: 'Live Channels',
+            'pt-br': 'Canais ao vivo',
+            streamsAction: 'get_live_streams',
+            categoriesAction: 'get_live_categories'
+        },
+        vod: {
+            en: 'Movies',
+            'pt-br': 'Filmes',
+            streamsAction: 'get_vod_streams',
+            categoriesAction: 'get_vod_categories'
+        },
+        series: {
+            en: 'Series',
+            'pt-br': 'Séries',
+            streamsAction: 'get_series',
+            categoriesAction: 'get_series_categories'
+        }
     };
 
     const urlParams = new URLSearchParams(location.search);
@@ -203,51 +219,117 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- CARGA DOS DADOS (CACHE FIRST) ---
     async function loadContent() {
         try {
-            let rawStreams = null;
-            let rawCategories = null;
+            const session = iptvSession.data;
 
-            // 1. Tenta buscar dados unificados do cache local do IndexedDB primeiro
-            try {
-                rawStreams = await iptvCacheDB.get(firstParam);
-                rawCategories = await iptvCacheDB.get(`${firstParam}_categories`);
-            } catch (dbErr) {
-                console.warn("Erro ao ler IndexedDB:", dbErr);
+            if (!session) {
+                throw new Error('Sessão não encontrada.');
             }
 
-            // 2. Se falhar o cache, busca os arquivos JSON correspondentes via Rede/Local
-            if (!rawStreams || !rawCategories) {
-                console.log(`[Cache Miss] Buscando dados remotos para: ${firstParam}`);
+            const streamCacheKey = firstParam;
+            const categoryCacheKey = `${firstParam}_categories`;
 
-                // Faz as duas requisições em paralelo para carregar muito mais rápido
-                const [streamRes, catRes] = await Promise.all([
-                    fetch(currentConfig.streamFile),
-                    fetch(currentConfig.catFile)
-                ]);
+            // 1. Tenta recuperar cada conjunto de dados do cache.
+            let [rawStreams, rawCategories] = await Promise.all([
+                iptvCacheDB.get(streamCacheKey),
+                iptvCacheDB.get(categoryCacheKey)
+            ]);
 
-                rawStreams = await streamRes.json();
-                rawCategories = await catRes.json();
+            // 2. Busca somente o que estiver ausente ou expirado.
+            const requests = [];
 
-                // Nota: Aqui você poderia salvar rawStreams e rawCategories de volta no IndexedDB se desejar.
+            if (!rawStreams) {
+                const url = buildIptvEndpoint('api', {
+                    username: session.username,
+                    password: session.password,
+                    action: currentConfig.streamsAction
+                });
+
+                requests.push(
+                    fetch(url)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(
+                                    `Falha ao buscar conteúdo: HTTP ${response.status}`
+                                );
+                            }
+
+                            return response.json();
+                        })
+                        .then(async data => {
+                            if (!Array.isArray(data)) {
+                                throw new Error(
+                                    'Resposta inválida ao carregar conteúdo.'
+                                );
+                            }
+
+                            await iptvCacheDB.set(streamCacheKey, data);
+                            rawStreams = data;
+                        })
+                );
             }
 
-            // 3. Converte a lista de categorias em um objeto de busca rápida (Map)
+            if (!rawCategories) {
+                const url = buildIptvEndpoint('api', {
+                    username: session.username,
+                    password: session.password,
+                    action: currentConfig.categoriesAction
+                });
+
+                requests.push(
+                    fetch(url)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(
+                                    `Falha ao buscar categorias: HTTP ${response.status}`
+                                );
+                            }
+
+                            return response.json();
+                        })
+                        .then(async data => {
+                            if (!Array.isArray(data)) {
+                                throw new Error(
+                                    'Resposta inválida ao carregar categorias.'
+                                );
+                            }
+
+                            await iptvCacheDB.set(categoryCacheKey, data);
+                            rawCategories = data;
+                        })
+                );
+            }
+
+            await Promise.all(requests);
+
+            // 3. Cria o mapa de ID para nome da categoria.
             categoryMap = {};
+
             rawCategories.forEach(cat => {
-                if (cat.category_id && cat.category_name) {
+                if (
+                    cat.category_id != null &&
+                    cat.category_name
+                ) {
                     categoryMap[cat.category_id] = cat.category_name;
                 }
             });
 
-            // 4. Processa e normaliza os streams cruzando com as categorias recém-mapeadas
-            allStreams = rawStreams.map(item => mapStreamItem(item, firstParam));
+            // 4. Normaliza os dados para a interface existente.
+            allStreams = rawStreams.map(item =>
+                mapStreamItem(item, firstParam)
+            );
 
-            // 5. Renderiza tudo na tela
+            // 5. Renderiza sem alterar os componentes da interface.
             renderCategories(allStreams);
-            filterAndRenderStreams("Todas");
+            filterAndRenderStreams('Todas');
 
         } catch (err) {
-            console.error("Erro fundamental ao carregar conteúdo:", err);
-            el.channelList.innerHTML = `<p class="text-center text-red-500 py-10 w-full">Erro ao carregar canais: ${err.message || err}</p>`;
+            console.error('Erro ao carregar conteúdo:', err);
+
+            el.channelList.innerHTML = `
+            <p class="text-center text-red-500 py-10 w-full">
+                Erro ao carregar conteúdo: ${err.message || err}
+            </p>
+        `;
         }
     }
 
