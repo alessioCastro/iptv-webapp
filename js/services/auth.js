@@ -1,14 +1,14 @@
 import { iptvCacheDB } from './cache.js';
 
 const IPTV_CONFIG = {
-    domain: "iptvmais.live",
+    domain: "iptvmais.one",
     paths: {
         extinf: "get.php",
         api: "player_api.php"
     }
 };
 
-function buildIptvEndpoint(path, params = {}) {
+export function buildIptvEndpoint(path, params = {}) {
     const searchParams = new URLSearchParams(params);
     return `https://${IPTV_CONFIG.domain}/${IPTV_CONFIG.paths[path]}?${searchParams.toString()}`;
 }
