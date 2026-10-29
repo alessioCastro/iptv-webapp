@@ -1,6 +1,6 @@
 import { $, showModal, addModalListener } from './utils/helpers.js';
 import { initClock } from './utils/date.js';
-import { iptvSession, login, logout } from './services/auth.js';
+import { iptvSession, buildIptvEndpoint, login, logout } from './services/auth.js';
 import { iptvCacheDB } from './services/cache.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,17 +40,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const session = iptvSession.data;
         if (!session) throw new Error("Sessão não encontrada. Faça login novamente.");
 
-        const actionMap = { live: 'get_live_streams', vod: 'get_vod_streams', series: 'get_series' };
-        const endpoint = `${actionMap[type]}.json`;
+        const actionMap = {
+            live: 'get_live_streams',
+            vod: 'get_vod_streams',
+            series: 'get_series'
+        };
+
+        const action = actionMap[type];
+
+        if (!action) {
+            throw new Error('Tipo de conteúdo inválido.');
+        }
+
+        const endpoint = buildIptvEndpoint('api', {
+            username: session.username,
+            password: session.password,
+            action
+        });
 
         const response = await fetch(endpoint);
-        if (!response.ok) throw new Error("Falha ao buscar dados do servidor de IPTV.");
+
+        if (!response.ok) {
+            throw new Error(
+                `Falha ao buscar dados do servidor IPTV: HTTP ${response.status}`
+            );
+        }
 
         const data = await response.json();
 
-        // 3. Salva no banco assincronamente
+        if (!Array.isArray(data)) {
+            throw new Error('Resposta inválida do servidor IPTV.');
+        }
+
         await iptvCacheDB.set(type, data);
-        data.fromNetwork = true;
+
         return data;
     }
 
