@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4f46e5',
+          }
+        }
+      }
+    }
+  </script>
+
+  <title>alphaX IPTV | Home</title>
+
+  <style>
+    :root {
+      --primary-color: #14141d;
+      --secondary-color: #232330;
+      --primary-text-color: #eceaef;
+      --secondary-text-color: #5e5b6c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      line-height: 1;
+    }
+
+    body {
+      background-color: #14141d;
+      background-image:
+        linear-gradient(rgba(20, 20, 29, 0.9), rgba(20, 20, 29, 0.98)),
+        url(https://shop.haierindia.com/blog/wp-content/uploads/2025/05/Ideal-Viewing-Distance-for-LED-TV-1116x628.jpg.webp);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    form input,
+    form button {
+      border: 1px solid rgba(128, 128, 128, 0.1);
+      border-radius: 2px;
+      padding: 10px;
+      background: var(--secondary-color);
+      box-shadow: 0px 0px 50px 5px #14141d;
+      transition: 0.7s;
+      cursor: default;
+    }
+
+    form input {
+      padding: 3px;
+    }
+
+    .card {
+      z-index: 999;
+      position: relative;
+      border: 1px solid rgba(128, 128, 128, 0.1);
+      border-radius: 2px;
+      padding: 20px;
+      flex: 1;
+      min-width: 180px;
+      min-height: 300px;
+      background: var(--secondary-color);
+      box-shadow: 0px 0px 50px 5px #14141d;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: end;
+      transition: 0.7s;
+      scroll-snap-align: start;
+      cursor: default;
+    }
+
+    .card::before,
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      pointer-events: none;
+      mask-composite: intersect;
+      opacity: 0;
+    }
+
+    .card::before {
+      top: 0;
+      right: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.6);
+      border-right: 1px solid rgba(255, 255, 255, 0.6);
+      mask-image:
+        linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+      box-shadow: inset 0 0 50px 0 #14141d;
+    }
+
+    .card::after {
+      bottom: 0;
+      left: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      border-left: 1px solid rgba(255, 255, 255, 0.6);
+      mask-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent),
+        linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);
+      box-shadow: inset 0 0 50px 0 #14141d;
+    }
+
+    .card:hover {
+      z-index: 1;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
+      transform: scale(1.1);
+    }
+
+    .card:hover::before,
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card .selector {
+      position: absolute;
+      left: 30%;
+      right: 30%;
+      bottom: 0;
+      height: 4px;
+      background: white;
+      border-radius: 10px 10px 0 0;
+      opacity: 0;
+      box-shadow: 10px 0 20px 2px rgba(255, 255, 255, 0.7);
+      transform: translateY(-10px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card:hover .selector {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .modal {
+      z-index: 999;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      border: 1px solid rgba(128, 128, 128, 0.1);
+      border-radius: 2px;
+      padding: 20px;
+      background: var(--secondary-color);
+      box-shadow: 0px 0px 50px 5px #14141d;
+      color: #eceaef;
+      max-height: 70vh;
+      max-width: 80vw;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body class="p-[20px_30px] text-gray-300 flex flex-col">
+  <header class="flex items-center">
+    <img src="alpha.svg" alt="alpha.svg" width="80px">
+    <p class="font-bold">IPTV</p>
+    <div id="profile-bar" class="hidden ml-auto flex items-center gap-2">
+      <button class="p-3 bg-[#232330] rounded-full cursor-pointer hover:bg-gray-700 transition flex">
+        <span class="material-symbols-outlined text-[18px] opacity-50">settings</span>
+      </button>
+      <button id="logout-btn" class="w-10 h-10 rounded-full border-2 border-red-600 p-0.5 cursor-pointer">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full rounded-full bg-slate-700"
+          alt="Utilizador">
+      </button>
+    </div>
+  </header>
+
+  <div class="grow flex flex-wrap justify-center">
+    <div id="login-container" class="self-center p-[20px] text-[24px]">
+      <div class="flex flex-col gap-5 mb-[50px]">
+        <h1 class="text-[40px]">Bem-vindo(a) ao alphaX IPTV</h1>
+        <p class="text-[24px] opacity-70">Faça login para acessar o conteúdo</p>
+      </div>
+      <form id="loginForm" class="flex flex-col gap-5">
+        <div class="form-group flex flex-col gap-1">
+          <label for="username">Usuário</label>
+          <input type="text" id="username" name="iptv_username" required>
+        </div>
+
+        <div class="form-group flex flex-col gap-1">
+          <label for="password">Senha</label>
+          <input type="password" id="password" name="iptv_password" required>
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <div id="logged-in-container" class="hidden grow flex">
+      <div class="p-[50px_0] flex flex-wrap gap-5 grow">
+        <a href="./content.html?live" class="card">
+          <span class="material-symbols-outlined text-[60px]">live_tv</span>
+          <p class="text-[28px]">Live TV</p>
+          <p class="text-[12px] text-gray-400">+30000 Channels</p>
+          <div class="selector bg-white"></div>
+        </a>
+        <a href="./content.html?vod" class="card">
+          <span class="material-symbols-outlined text-[60px]">movie</span>
+          <p class="text-[28px]">Movies</p>
+          <p class="text-[12px] text-gray-400">+12000 Movies</p>
+          <div class="selector bg-white"></div>
+        </a>
+        <a href="./content.html?series" class="card">
+          <span class="material-symbols-outlined text-[60px]">movie</span>
+          <p class="text-[28px]">Series</p>
+          <p class="text-[12px] text-gray-400">+50000 Series</p>
+          <div class="selector bg-white"></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="p-[20px] text-white/80 font-medium self-end">
+      <div class="ml-auto w-fit flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <path d="M12 2v2" />
+          <path d="m4.93 4.93 1.41 1.41" />
+          <path d="M20 12h2" />
+          <path d="m19.07 19.07 1.41 1.41" />
+          <path d="M12 20v2" />
+          <path d="m6.34 17.66-1.41 1.41" />
+          <path d="M2 12h2" />
+          <path d="m7.76 7.76-1.41-1.41" />
+          <circle cx="12" cy="12" r="4" />
+        </svg>
+        <span>24°</span>
+      </div>
+      <span id="clock" class="text-[80px]">12:51</span>
+    </div>
+  </div>
+
+  <dialog id="modal" class="modal">
+    <p id="modal-text" style="white-space: pre-line;"></p>
+  </dialog>
+
+  <script src="./js/auth-main.js" type="module"></script>
+</body>
+
+</html>
