@@ -1,0 +1,56 @@
+[
+    {
+        "num": 1,
+        "name": "GLOBO BRASILIA [FHD]",
+        "stream_type": "live",
+        "stream_id": 95439,
+        "stream_icon": "http://stolm.live/lives/CANAIS%20ABERTOS/GLOBO%202021.png",
+        "epg_channel_id": "Globodf.br",
+        "added": "",
+        "custom_sid": "",
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0,
+        "category_id": "1885",
+        "category_ids": [
+            1885
+        ],
+        "thumbnail": ""
+    },
+    {
+        "num": 2,
+        "name": "GLOBO MINAS [HD]",
+        "stream_type": "live",
+        "stream_id": 90034,
+        "stream_icon": "http://stolm.live/lives/CANAIS%20ABERTOS/GLOBO%202021.png",
+        "epg_channel_id": "Globomg.br",
+        "added": "1644767758",
+        "custom_sid": "",
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0,
+        "category_id": "1885",
+        "category_ids": [
+            1885
+        ],
+        "thumbnail": ""
+    },
+    {
+        "num": 3,
+        "name": "GLOBO RJ [HD]",
+        "stream_type": "live",
+        "stream_id": 91432,
+        "stream_icon": "http://stolm.live/lives/CANAIS%20ABERTOS/GLOBO%202021.png",
+        "epg_channel_id": "Globorj.br",
+        "added": "1644767758",
+        "custom_sid": "",
+        "tv_archive": 0,
+        "direct_source": "",
+        "tv_archive_duration": 0,
+        "category_id": "1885",
+        "category_ids": [
+            1885
+        ],
+        "thumbnail": ""
+    }
+]

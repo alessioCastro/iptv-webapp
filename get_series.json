@@ -1,0 +1,88 @@
+[
+    {
+        "num": 1,
+        "name": "Berlim e a Dama com Arminho",
+        "title": "Berlim e a Dama com Arminho",
+        "year": "2026",
+        "stream_type": "series",
+        "series_id": 9641,
+        "cover": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/m88fQoaNmGmHIzM3o21f6IrocTk.jpg",
+        "plot": "Sedento por um novo golpe, Berlim reúne a gangue em Sevilha e transforma um duque ambicioso em vítima do próprio plano: roubar uma obra-prima de Leonardo da Vinci.",
+        "cast": "Pedro Alonso, Michelle Jenner, Tristán Ulloa, Begoña Vargas, Julio Peña",
+        "director": "Albert Pintó",
+        "genre": "Drama, Crime, Action & Adventure, Comédia",
+        "release_date": "2026-05-15",
+        "releaseDate": "2026-05-15",
+        "last_modified": "1779060326",
+        "rating": "8",
+        "rating_5based": 4,
+        "backdrop_path": [
+            "https://image.tmdb.org/t/p/w600_and_h900_bestv2/ntPgSYKwPg9xKO4VvLJYfInSyZa.jpg"
+        ],
+        "youtube_trailer": "ANMZvvO-SCk",
+        "episode_run_time": "82",
+        "category_id": "1842",
+        "category_ids": [
+            1842,
+            2377,
+            2376
+        ]
+    },
+    {
+        "num": 2,
+        "name": "O Círculo Secreto",
+        "title": "O Círculo Secreto",
+        "year": "2011",
+        "stream_type": "series",
+        "series_id": 9640,
+        "cover": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/v4fZ3UUi8gDccGTyc6XNOe0cksf.jpg",
+        "plot": "Situado na cidade fictícia de Chance Harbor, Washington, a série mostra uma adolescente da Califórnia, Cassie Blake, que vivia com sua mãe Amelia, até que a mãe morre em um trágico acidente. Cassie vai morar com sua avó Jane na pequena cidade Chance Harbor, Washington, onde os habitantes parecem saber mais sobre ela do que ela sabe sobre si própria. Quando Cassie conhece seus novos colegas, coisas perigosas e estranhas começam a ocorrer e aparentemente seus amigos estão envolvidos. O grupo explica a Cassie que eles são descendentes de bruxas, e que estavam esperando por ela, para se juntar e completar a nova geração do Círculo Secreto.",
+        "cast": "Britt Robertson, Phoebe Tonkin, Thomas Dekker, Shelley Hennig, Jessica Parker Kennedy",
+        "director": null,
+        "genre": "Drama, Sci-Fi & Fantasy",
+        "release_date": "2011-09-15",
+        "releaseDate": "2011-09-15",
+        "last_modified": "1778939483",
+        "rating": "7",
+        "rating_5based": 3.5,
+        "backdrop_path": [
+            "https://image.tmdb.org/t/p/w600_and_h900_bestv2/lYD41UqeRJohZ2nJnpwpSQJiCcj.jpg"
+        ],
+        "youtube_trailer": "I0G1OEQVNRM",
+        "episode_run_time": "42",
+        "category_id": "2377",
+        "category_ids": [
+            2377,
+            2387,
+            1882
+        ]
+    },
+    {
+        "num": 3,
+        "name": "Flesh and Bone",
+        "title": "Flesh and Bone",
+        "year": "2015",
+        "stream_type": "series",
+        "series_id": 9639,
+        "cover": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/yP4vPgb7Inpmhxgy9iTEsy1faSy.jpg",
+        "plot": "Esta série sombria e complexa acompanha a jovem dançarina Claire e sua entrada em uma prestigiada companhia de balé de Nova York, quando ela se depara com o universo problemático da dança.",
+        "cast": "Sarah Hay, Irina Dvorovenko, Raychel Diane Weiner, Emily Tyra, Ben Daniels",
+        "director": "Nelson McCormick, Алик Сахаров, Adam Davidson",
+        "genre": "Drama",
+        "release_date": "2015-11-08",
+        "releaseDate": "2015-11-08",
+        "last_modified": "1778873418",
+        "rating": "7",
+        "rating_5based": 3.5,
+        "backdrop_path": [
+            "https://image.tmdb.org/t/p/w600_and_h900_bestv2/k3KyjZLNGoQlsR4i7J05INW3V2x.jpg"
+        ],
+        "youtube_trailer": null,
+        "episode_run_time": "60",
+        "category_id": "2377",
+        "category_ids": [
+            2377,
+            1882
+        ]
+    }
+]

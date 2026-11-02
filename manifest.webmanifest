@@ -1,0 +1,32 @@
+{
+    "id": "/iptv-webapp/",
+    "name": "alphaX IPTV",
+    "short_name": "alphaX",
+    "description": "Seu aplicativo de IPTV.",
+    "start_url": "/iptv-webapp/index.html",
+    "scope": "/iptv-webapp/",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#14141d",
+    "theme_color": "#14141d",
+    "icons": [
+        {
+            "src": "/iptv-webapp/assets/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/iptv-webapp/assets/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/iptv-webapp/assets/icons/icon-512-maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
